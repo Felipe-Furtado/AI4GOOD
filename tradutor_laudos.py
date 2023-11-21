@@ -1,7 +1,7 @@
 import streamlit as st
 import easyocr
 from PIL import Image
-import io
+import tempfile
 
 reader = easyocr.Reader(['pt', 'en'], gpu=False)
 
@@ -11,11 +11,18 @@ st.caption("Selecione o arquivo que deseja traduzir")
 laudo_original = st.file_uploader("Selecione o arquivo", type=['png', 'jpg', 'jpeg'])
 
 if laudo_original is not None:
-    # Read the uploaded image
-    image = Image.open(io.BytesIO(laudo_original.read()))
+    # Save the uploaded image to a temporary file
+    temp_image = tempfile.NamedTemporaryFile(delete=False)
+    temp_image.write(laudo_original.read())
+
+    # Close the temporary file to release the file handle
+    temp_image.close()
+
+    # Read the image using PIL
+    image = Image.open(temp_image.name)
     
-    # Perform OCR on the image
-    texto_laudo = reader.readtext(image, detail=0)
+    # Perform OCR on the image using EasyOCR
+    texto_laudo = reader.readtext(temp_image.name, detail=0)
     
     # Display the OCR result
     st.header("Texto do Laudo Original")
