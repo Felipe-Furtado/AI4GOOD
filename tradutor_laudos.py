@@ -1,7 +1,7 @@
 import streamlit as st
 import easyocr
 
-reader = easyocr.Reader('pt', gpu = False)
+reader = easyocr.Reader(['pt'], gpu = False)
 
 st.header("Tradutor de Laudos de Exames Médicos")
 st.caption("Selecione o arquivo que deseja traduzir")
