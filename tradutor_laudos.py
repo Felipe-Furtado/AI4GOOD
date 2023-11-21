@@ -3,7 +3,7 @@ import easyocr
 
 reader = easyocr.Reader(['pt'])
 
-st.heading("Tradutor de Laudos de Exames Médicos")
+st.header("Tradutor de Laudos de Exames Médicos")
 st.caption("Selecione o arquivo que deseja traduzir")
 
 laudo_original = st.file_uploader("Selecione o arquivo", type=['png', 'jpg', 'jpeg'])
