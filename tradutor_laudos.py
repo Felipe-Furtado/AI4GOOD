@@ -37,13 +37,11 @@ def process_image():
     return texto_laudo
 
 if laudo_original is not None:
-    submit = st.button("Enviar")
-
-# Display the OCR result as a paragraph
-if submit:
-    texto_laudo = process_image()
-    expander = st.expander("Texto Extraído do Laudo Original")
-    expander.write(texto_laudo)
+    if st.button("Enviar"):
+    # Display the OCR result as a paragraph
+        texto_laudo = process_image()
+        expander = st.expander("Texto Extraído do Laudo Original")
+        expander.write(texto_laudo)
 
 # LLM integration
 client = openai.OpenAI()
