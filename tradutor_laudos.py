@@ -16,7 +16,7 @@ st.caption("Selecione o arquivo que deseja traduzir")
 laudo_original = st.file_uploader("Selecione o arquivo", type=['png', 'jpg', 'jpeg'])
 
 # Define function to process image on button click
-@st.cache_data(show_spinner="Extaindo texto do laudo..." )
+@st.cache_data(show_spinner="Extraindo texto do laudo..." )
 def process_image():
     # Save the uploaded image to a temporary file
     temp_image = tempfile.NamedTemporaryFile(delete=False)
