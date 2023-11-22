@@ -38,7 +38,7 @@ if laudo_original is not None:
         st.write(texto_laudo)
 
 # LLM integration
-client = OpenAI()
+client = openai.OpenAI()
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 if laudo_original is not None and st.button("Traduzir"):
     with st.spinner("Traduzindo..."):
