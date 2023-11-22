@@ -13,7 +13,9 @@ st.caption("Selecione o arquivo que deseja traduzir")
 # File uploader for image selection
 laudo_original = st.file_uploader("Selecione o arquivo", type=['png', 'jpg', 'jpeg'])
 
-if laudo_original is not None:
+# Define function to process image on button click
+@st.cache_data
+def process_image():
     # Save the uploaded image to a temporary file
     temp_image = tempfile.NamedTemporaryFile(delete=False)
     temp_image.write(laudo_original.read())
@@ -23,20 +25,24 @@ if laudo_original is not None:
 
     # Read the image using PIL
     image = Image.open(temp_image.name)
-    
+
     # Perform OCR on the image using EasyOCR
     # Extract text from the temporary image file
-    with st.spinner("Extraindo texto..."):
+    with st.spinner("Extracting text..."):
         text_results = reader.readtext(temp_image.name, detail=0)
-    
+
     # Combine the list of strings into a paragraph
     # Join the list elements with a space
     texto_laudo = ' '.join(text_results)
-    
-    # Display the OCR result as a paragraph
+    return texto_laudo
+
+submit = st.button("Enviar")
+
+# Display the OCR result as a paragraph
+if laudo_original is not None and submit:
+    texto_laudo = process_image()
     expander = st.expander("Texto Extraído do Laudo Original")
     expander.write(texto_laudo)
-
 
 # LLM integration
 client = openai.OpenAI()
