@@ -71,5 +71,6 @@ if "texto_laudo" in locals():
                 )
         if llm_call is not None:
             st.success("Tradução concluída!")
+            process_image.clear()
             resposta = llm_call.choices[0].message.content
             st.write(resposta)
