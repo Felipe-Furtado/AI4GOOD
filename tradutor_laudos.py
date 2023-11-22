@@ -14,7 +14,7 @@ st.caption("Selecione o arquivo que deseja traduzir")
 laudo_original = st.file_uploader("Selecione o arquivo", type=['png', 'jpg', 'jpeg'])
 
 # Define function to process image on button click
-@st.cache_data
+@st.cache_data(suppress_st_warning=True )
 def process_image():
     # Save the uploaded image to a temporary file
     temp_image = tempfile.NamedTemporaryFile(delete=False)
@@ -47,7 +47,7 @@ if laudo_original is not None:
 client = openai.OpenAI()
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-if "texto_laudo" in locals() and st.button("Traduzir"):
+if "texto_laudo" in locals():
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
