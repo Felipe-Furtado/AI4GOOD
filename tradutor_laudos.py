@@ -3,6 +3,7 @@ import easyocr
 from PIL import Image
 import tempfile
 import openai
+import time
 
 # Initialize EasyOCR with desired languages
 reader = easyocr.Reader(['pt', 'en'], gpu=False)
@@ -47,6 +48,7 @@ client = openai.OpenAI()
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 if "texto_laudo" in locals():
+        time.sleep(60)
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
