@@ -34,8 +34,8 @@ if laudo_original is not None:
     texto_laudo = ' '.join(text_results)
     
     # Display the OCR result as a paragraph
-    with st.expander("Texto do Laudo Original"):
-        st.write(texto_laudo)
+    expander = st.expander("Texto Extraído do Laudo Original")
+    expander.write(texto_laudo)
 
 
 # LLM integration
