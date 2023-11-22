@@ -49,7 +49,7 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 if "texto_laudo" in locals():
         with st.spinner("Traduzindo laudo..."):
-            time.sleep(60)
+            time.sleep(5)
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
@@ -63,11 +63,10 @@ if "texto_laudo" in locals():
                     }
                 ],
                 temperature=1,
-                max_tokens=2048,
+                max_tokens=1024,
                 top_p=1,
                 frequency_penalty=0,
-                presence_penalty=0,
-                stream=True
+                presence_penalty=0
                 )
         st.success("Tradução concluída!")
         resposta = response['choices'][0]['message']['content']
