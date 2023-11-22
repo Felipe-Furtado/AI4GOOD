@@ -46,7 +46,6 @@ if laudo_original is not None:
 # LLM integration
 client = openai.OpenAI()
 openai.api_key = st.secrets["OPENAI_API_KEY"]
-
 if "texto_laudo" in locals():
         with st.spinner("Traduzindo laudo..."):
             time.sleep(5)
@@ -70,4 +69,4 @@ if "texto_laudo" in locals():
                 )
         if response is not None:
             st.success("Tradução concluída!")
-            st.write(response['choices'][0]['message']['content'])
+            st.write(response)
