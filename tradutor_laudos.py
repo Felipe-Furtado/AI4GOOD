@@ -26,7 +26,8 @@ if laudo_original is not None:
     
     # Perform OCR on the image using EasyOCR
     # Extract text from the temporary image file
-    text_results = reader.readtext(temp_image.name, detail=0)
+    with st.spinner("Extraindo texto..."):
+        text_results = reader.readtext(temp_image.name, detail=0)
     
     # Combine the list of strings into a paragraph
     # Join the list elements with a space
