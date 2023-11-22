@@ -14,7 +14,7 @@ st.caption("Selecione o arquivo que deseja traduzir")
 laudo_original = st.file_uploader("Selecione o arquivo", type=['png', 'jpg', 'jpeg'])
 
 # Define function to process image on button click
-@st.cache_data(suppress_st_warning=True )
+@st.cache_data(show_spinner="Extaindo texto do laudo..." )
 def process_image():
     # Save the uploaded image to a temporary file
     temp_image = tempfile.NamedTemporaryFile(delete=False)
@@ -28,8 +28,7 @@ def process_image():
 
     # Perform OCR on the image using EasyOCR
     # Extract text from the temporary image file
-    with st.spinner("Extraindo texto do laudo..."):
-        text_results = reader.readtext(temp_image.name, detail=0)
+    text_results = reader.readtext(temp_image.name, detail=0)
 
     # Combine the list of strings into a paragraph
     # Join the list elements with a space
