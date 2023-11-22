@@ -2,7 +2,7 @@ import streamlit as st
 import easyocr
 from PIL import Image
 import tempfile
-from openai import OpenAI
+import openai
 
 # Initialize EasyOCR with desired languages
 reader = easyocr.Reader(['pt', 'en'], gpu=False)
