@@ -68,6 +68,6 @@ if "texto_laudo" in locals():
                 frequency_penalty=0,
                 presence_penalty=0
                 )
-        st.success("Tradução concluída!")
-        resposta = response['choices'][0]['message']['content']
-        st.write(resposta)
+        if response is not None:
+            st.success("Tradução concluída!")
+            st.write(response['choices'][0]['message']['content'])
