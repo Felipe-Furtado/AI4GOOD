@@ -42,7 +42,6 @@ if laudo_original is not None:
 client = openai.OpenAI()
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 if "texto_laudo" in locals() and st.button("Traduzir"):
-    with st.spinner("Traduzindo..."):
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -59,7 +58,8 @@ if "texto_laudo" in locals() and st.button("Traduzir"):
             max_tokens=2048,
             top_p=1,
             frequency_penalty=0,
-            presence_penalty=0
+            presence_penalty=0,
+            stream=True
             )
         st.success("Tradução concluída!")
         st.write(response.choices[0].text)
