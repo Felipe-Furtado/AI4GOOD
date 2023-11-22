@@ -28,7 +28,7 @@ def process_image():
 
     # Perform OCR on the image using EasyOCR
     # Extract text from the temporary image file
-    with st.spinner("Extracting text..."):
+    with st.spinner("Extraindo texto do laudo..."):
         text_results = reader.readtext(temp_image.name, detail=0)
 
     # Combine the list of strings into a paragraph
