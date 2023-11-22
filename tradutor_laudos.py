@@ -46,6 +46,7 @@ if laudo_original is not None:
 # LLM integration
 client = openai.OpenAI()
 openai.api_key = st.secrets["OPENAI_API_KEY"]
+
 if "texto_laudo" in locals() and st.button("Traduzir"):
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -67,4 +68,4 @@ if "texto_laudo" in locals() and st.button("Traduzir"):
             stream=True
             )
         st.success("Tradução concluída!")
-        st.write(response.choices[0].text)
+        st.write(response['choices'][0]['message']['content'])
