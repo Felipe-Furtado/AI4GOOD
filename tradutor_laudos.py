@@ -36,10 +36,11 @@ def process_image():
     texto_laudo = ' '.join(text_results)
     return texto_laudo
 
-submit = st.button("Enviar")
+if laudo_original is not None:
+    submit = st.button("Enviar")
 
 # Display the OCR result as a paragraph
-if laudo_original is not None and submit:
+if submit:
     texto_laudo = process_image()
     expander = st.expander("Texto Extraído do Laudo Original")
     expander.write(texto_laudo)
