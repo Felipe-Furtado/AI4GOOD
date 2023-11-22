@@ -68,4 +68,5 @@ if "texto_laudo" in locals() and st.button("Traduzir"):
             stream=True
             )
         st.success("Tradução concluída!")
-        st.write(response['choices'][0]['message']['content'])
+        resposta = response['choices'][0]['message']['content']
+        st.write(resposta)
