@@ -42,6 +42,7 @@ if laudo_original is not None:
     if st.button("Enviar"):
     # Display the OCR result as a paragraph
         texto_laudo = process_image()
+        os.remove(temp_image.name)
         expander = st.expander("Texto Extraído do Laudo Original")
         expander.write(texto_laudo)
 
@@ -74,3 +75,4 @@ if "texto_laudo" in locals():
             st.cache_data.clear()
             resposta = llm_call.choices[0].message.content
             st.write(resposta)
+             
