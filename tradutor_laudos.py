@@ -44,22 +44,22 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 if texto_laudo is not None and st.button("Traduzir"):
     with st.spinner("Traduzindo..."):
         response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {
-        "role": "system",
-        "content": "You are a specialist in translating medical and scientific jargon to laypeople for easy understanding. You are to receive as input a text extracted from medical reports, and to give as output an easy-to-understand explanation of the described findings. If the findings are concerning, you may suggest the person to contact the referring provider and book an appointment soon. If the findings are not concerning, provide relief but state that the referring doctor's opinion should be the final one. Respond in the same language as the text you receive. The text is scanned with OCR so it could contain typos. Guess the meaning of nonsense words by the surrounding context."
-        },
-        {
-        "role": "user",
-        "content": texto_laudo
-        }
-    ],
-    temperature=1,
-    max_tokens=2048,
-    top_p=1,
-    frequency_penalty=0,
-    presence_penalty=0
-    )
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                "role": "system",
+                "content": "You are a specialist in translating medical and scientific jargon to laypeople for easy understanding. You are to receive as input a text extracted from medical reports, and to give as output an easy-to-understand explanation of the described findings. If the findings are concerning, you may suggest the person to contact the referring provider and book an appointment soon. If the findings are not concerning, provide relief but state that the referring doctor's opinion should be the final one. Respond in the same language as the text you receive. The text is scanned with OCR so it could contain typos. Guess the meaning of nonsense words by the surrounding context."
+                },
+                {
+                "role": "user",
+                "content": texto_laudo
+                }
+            ],
+            temperature=1,
+            max_tokens=2048,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+            )
         st.success("Tradução concluída!")
         st.write(response.choices[0].text)
