@@ -4,6 +4,7 @@ from PIL import Image
 import tempfile
 import openai
 import time
+import os
 
 # Initialize EasyOCR with desired languages
 reader = easyocr.Reader(['pt', 'en'], gpu=False)
@@ -29,7 +30,8 @@ def process_image():
 
     # Perform OCR on the image using EasyOCR
     # Extract text from the temporary image file
-    text_results = reader.readtext(temp_image.name, detail=0)
+    with st.spinner("Extraindo texto do laudo..."):
+        text_results = reader.readtext(temp_image.name, detail=0)
 
     # Combine the list of strings into a paragraph
     # Join the list elements with a space
@@ -44,17 +46,17 @@ if laudo_original is not None:
         expander.write(texto_laudo)
 
 # LLM integration
-client = openai.OpenAI()
 openai.api_key = st.secrets["OPENAI_API_KEY"]
+client = openai.OpenAI()
 if "texto_laudo" in locals():
         with st.spinner("Traduzindo laudo..."):
             time.sleep(5)
-            response = client.chat.completions.create(
+            llm_call = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {
                     "role": "system",
-                    "content": "You are a specialist in translating medical and scientific jargon to laypeople for easy understanding. You are to receive as input a text extracted from medical reports, and to give as output an easy-to-understand explanation of the described findings. If the findings are concerning, you may suggest the person to contact the referring provider and book an appointment soon. If the findings are not concerning, provide relief but state that the referring doctor's opinion should be the final one. Respond in the same language as the text you receive. The text is scanned with OCR so it could contain typos. Guess the meaning of nonsense words by the surrounding context."
+                    "content": "Você é especialista em traduzir termos médicos e científicos para linguagem amigável e acessível a leigos, facilitando o entendimento. Sua tarefa é receber um texto extraído de relatórios médicos e fornecer uma explicação fácil de entender sobre os achados descritos. Se os achados forem preocupantes, você pode sugerir que a pessoa entre em contato com o médico responsável e marque uma consulta em breve. Se os achados não forem preocupantes, traga alívio, mas ressalte que a opinião do médico responsável deve ser a final. Responda no mesmo idioma do texto que você receber. O texto foi escaneado com OCR, então pode conter erros tipográficos. Tente deduzir o significado de palavras sem sentido com base no contexto ao redor. Caso o texto não tenha sentido ou esteja com muitos erros, você pode solicitar uma nova foto."
                     },
                     {
                     "role": "user",
@@ -67,6 +69,7 @@ if "texto_laudo" in locals():
                 frequency_penalty=0,
                 presence_penalty=0
                 )
-        if response is not None:
+        if llm_call is not None:
             st.success("Tradução concluída!")
-            st.write(response)
+            resposta = llm_call.choices[0].message.content
+            st.write(resposta)
