@@ -3,7 +3,6 @@ import easyocr
 from PIL import Image
 import tempfile
 import openai
-import time
 import os
 
 # Initialize EasyOCR with desired languages
@@ -58,7 +57,6 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 client = openai.OpenAI()
 if "texto_laudo" in locals():
         with st.spinner("Traduzindo laudo..."):
-            time.sleep(5)
             llm_call = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
