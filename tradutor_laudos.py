@@ -42,7 +42,6 @@ if laudo_original is not None:
     if st.button("Enviar"):
     # Display the OCR result as a paragraph
         texto_laudo = process_image()
-        os.remove(temp_image.name)
         expander = st.expander("Texto Extraído do Laudo Original")
         expander.write(texto_laudo)
 
