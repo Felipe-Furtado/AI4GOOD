@@ -51,8 +51,10 @@ if laudo_original is not None:
         expander.write(texto_laudo)
 
 # LLM integration
-os.environ["OPENAI_API_KEY"] = "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"
-#openai.api_key = st.secrets["OPENAI_API_KEY"]
+
+#TODO Comment & remove API Key after local testing
+#os.environ["OPENAI_API_KEY"] = "sk-..."
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 client = openai.OpenAI()
 if "texto_laudo" in locals():
         with st.spinner("Traduzindo laudo..."):
