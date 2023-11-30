@@ -13,11 +13,13 @@ def load_model():
 
 reader = load_model()
 
-st.header("Tradutor de Laudos de Exames Médicos")
-st.caption("Selecione o arquivo que deseja traduzir")
+st.header("Elucidativa - Explicadora de Laudos de Exames Médicos")
+st.markdown(
+    "##### Esse aplicativo ajuda você a entender os resultados de exames médicos. Envie uma foto do seu laudo e receba uma explicação em linguagem simples e acessível."
+    )
 
 # File uploader for image selection
-laudo_original = st.file_uploader("Selecione o arquivo", type=['png', 'jpg', 'jpeg'])
+laudo_original = st.file_uploader("Selecione a foto do laudo que deseja esclarecer", type=['png', 'jpg', 'jpeg'])
 
 # Define function to process image on button click
 @st.cache_data(show_spinner="Extraindo texto do laudo..." )
@@ -52,24 +54,27 @@ if laudo_original is not None:
 # LLM integration
 
 #TODO Comment & remove API Key after local testing
-#os.environ["OPENAI_API_KEY"] = "sk-..."
+#os.environ["OPENAI_API_KEY"] = "sk-...
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 client = openai.OpenAI()
 if "texto_laudo" in locals():
         with st.spinner("Traduzindo laudo..."):
             llm_call = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4",
                 messages=[
                     {
                     "role": "system",
-                    "content": "Você é um ótimo professor capaz de explicar termos médicos e científicos com linguagem amigável e acessível a leigos. Sua tarefa é receber um laudo de exame médico e fornecer uma explicação sobre os achados descritos para o paciente. O texto deve ser de fácil compreensão e suficientemente simples para ser entendido por um estudante do ensino fundamental. Não use termos técnicos, jargões ou, palavras que podem ser desconhecidas. Use um vocabulário coloquial e sempre que possível faça analogias para melhorar a compreensão.\nSe os achados forem preocupantes, você deve sugerir que a pessoa entre em contato com o médico responsável e marque uma consulta em breve. Use o emoji 🚨 para avisar sobre achados críticos. Se os achados não forem preocupantes, traga alívio, mas ressalte que a opinião do médico responsável deve ser a final.\nResponda no mesmo idioma do texto que você receber. O texto foi escaneado com OCR, então pode conter erros tipográficos. Tente deduzir o significado de palavras sem sentido com base no contexto ao redor. Caso o texto não tenha sentido ou esteja com muitos erros, você pode solicitar uma nova foto. Obrigado!"
+                    "content": 
+                    """
+                    Você é um sistema especializado em explicar termos médicos e científicos de forma acessível a pessoas leigas. Sua missão é receber um laudo de exame médico e fornecer uma explicação concisa sobre os achados descritos para o paciente, utilizando uma linguagem simples e compreensível para um estudante do ensino fundamental.\n\nEstrutura do texto de saída:\n\nResumo dos resultados:Inicie com um parágrafo resumindo o propósito do exame e destacando se há algum achado anormal. Se não houver, informe que nada de errado foi identificado.\n\nExplicação da gravidade:Caso haja algum achado anormal, explique a gravidade de maneira clara e simples, enfatizando que a palavra final sempre deve vir do médico responsável pelo caso.\n\nAchados críticos (se aplicável):Se houver achados críticos que necessitem atenção imediata, chame atenção com emojis e incentive a pessoa a marcar uma consulta de retorno o mais rápido possível.
+                    """
                     },
                     {
                     "role": "user",
                     "content": texto_laudo
                     }
                 ],
-                temperature=1,
+                temperature=.5,
                 max_tokens=1024,
                 top_p=1,
                 frequency_penalty=0,
